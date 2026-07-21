@@ -4,9 +4,8 @@ body {
     min-height: 100vh;
 }
 
-/* Header */
 header {
-    height: 23vh;
+    height: max(23vh, 140px);
     background-image: url("./icons/header.png");
     background-size: cover;
     background-color: #0e0e0e;
@@ -24,7 +23,7 @@ a {
 
 h1 {
     font-weight: 800;
-    font-size: clamp(2.687rem, 4.75vw, 3.5rem);
+    font-size: clamp(2.585rem, 4.75vw, 3.5rem);
 }
 
 a {
@@ -32,46 +31,6 @@ a {
     font-size: clamp(0.95rem, 2vw, 1.35rem);
 }
 
-#search-section {
-    display: flex;
-    margin: 0 auto;
-    margin-top: -20px;
-    width: 84vw;
-}
-#search-input-container {
-    width: 74%;
-    position: relative;
-}
-#search-icon {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-55%); /* Perfectly centers it vertically */
-    pointer-events: none; /* Allows users to click "through" the icon onto the input */
-}
-#search-input {
-    width: 100%;
-    height: 100%;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    padding: 9px 0 9px 40px;
-}
-#search-input::placeholder {
-    color: #6b7280;
-}
-#search-button {
-    width: 26%;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    color: #374151;
-    background-color: #F9FAFB;
-}
-#search-input,
-#search-button {
-    border: 1px solid #d1d5db;
-}
 button {
     cursor: pointer;
 }
