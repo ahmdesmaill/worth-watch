@@ -1,3 +1,54 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+main,
+header,
+#search-component,
+#empty-placeholder-container,
+#empty-placeholder-a {
+    display: flex;
+}
+
+body,
+main,
+#empty-placeholder-container {
+    flex-direction: column;
+}
+
+main,
+header,
+#empty-placeholder-container,
+#empty-placeholder-a {
+    align-items: center;
+}
+
+main,
+#empty-placeholder-container {
+    flex: 1;
+}
+
+header,
+header a {
+    color: white;
+}
+
+header a,
+#empty-placeholder-title,
+#empty-placeholder-a {
+    font-weight: bold;
+}
+
+#strip-icon,
+#empty-placeholder-a img {
+    height: auto;
+}
+
+/* --- Individual rules --- */
+
 body {
     margin: 0;
     font-family: "Inter", sans-serif;
@@ -9,16 +60,8 @@ header {
     background-image: url("./icons/header.png");
     background-size: cover;
     background-color: #0e0e0e;
-
-    display: flex;
-    align-items: center;
     justify-content: space-between;
     padding: 0 7.5%;
-}
-
-header,
-a {
-    color: white;
 }
 
 h1 {
@@ -26,8 +69,7 @@ h1 {
     font-size: clamp(2.585rem, 4.75vw, 3.5rem);
 }
 
-a {
-    font-weight: 700;
+header a {
     font-size: clamp(0.95rem, 2vw, 1.35rem);
 }
 
@@ -36,9 +78,7 @@ button {
 }
 
 #search-component {
-    display: flex;
-    margin: 0 auto;
-    margin-top: -20px;
+    margin: -20px auto 5vh;
     width: 84vw;
 }
 
@@ -53,7 +93,7 @@ button {
     position: absolute;
     left: clamp(15px, 2vw, 20px);
     top: 50%;
-    transform: translateY(-55%); /* Center it vertically */
+    transform: translateY(-55%); /* Visually centered */
     pointer-events: none; /* Allows users to click "through" the icon onto the input */
 }
 
@@ -75,10 +115,45 @@ button {
 #search-input,
 #search-button {
     border: 1px solid #d1d5db;
-    height: clamp(45px, 5.5vw, 45px);
-    font-size: clamp(0.875rem, 2.5vw, 1.18rem);
+    height: clamp(45px, 5.5vw, 50px);
+    font-size: clamp(0.875rem, 2.5vw, 1.19rem);
 }
 
 #search-input::placeholder {
     color: #6b7280;
+}
+
+#empty-placeholder-container {
+    justify-content: center;
+    margin-top: -13vh;
+}
+
+#strip-icon {
+    width: clamp(65px, 7vw, 90px);
+    aspect-ratio: 7 / 6.15;
+}
+
+.add-icon,
+.remove-icon {
+    filter: invert(15%) sepia(17%) saturate(0%) hue-rotate(182deg)
+        brightness(101%) contrast(85%);
+    aspect-ratio: 1 / 1;
+}
+
+#empty-placeholder-title {
+    margin: 10px 0 0 0;
+    font-size: clamp(1.125rem, 2.5vw, 2.65rem);
+    max-width: 70vw;
+    color: #dfdddd;
+}
+
+#empty-placeholder-a {
+    color: #363636;
+    font-size: clamp(0.85rem, 1.75vw, 1.85rem);
+    gap: 9px;
+}
+
+#empty-placeholder-a img {
+    margin-top: 2px;
+    width: max(14px, 1.65vw);
 }

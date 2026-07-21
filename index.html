@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -10,6 +11,7 @@
         <link rel="stylesheet" href="./styles.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Worth Watch 🍿</title>
+        <script defer src="./index.js"></script>
     </head>
     <body>
         <header>
@@ -24,10 +26,15 @@
                         id="search-input"
                         type="search"
                         placeholder="Search for a movie"
-                        aria-label="Search for a movie"
+                        aria-label="Enter movie title"
                     />
                 </div>
                 <button id="search-button" type="button">Search</button>
+            </div>
+            <section id="movies-section"></section>
+            <div id="empty-placeholder-container">
+                <img id="strip-icon" alt="" src="./icons/film-strip.png" />
+                <p id="empty-placeholder-title">Start exploring</p>
             </div>
         </main>
     </body>
