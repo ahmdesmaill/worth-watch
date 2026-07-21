@@ -34,3 +34,51 @@ a {
 button {
     cursor: pointer;
 }
+
+#search-section {
+    display: flex;
+    margin: 0 auto;
+    margin-top: -20px;
+    width: 84vw;
+}
+
+#search-input-container {
+    width: 74%;
+    position: relative;
+}
+
+#search-icon {
+    width: clamp(14px, 1.6vw, 18px);
+    height: clamp(14px, 1.6vw, 18px);
+    position: absolute;
+    left: clamp(15px, 2vw, 20px);
+    top: 50%;
+    transform: translateY(-55%); /* Center it vertically */
+    pointer-events: none; /* Allows users to click "through" the icon onto the input */
+}
+
+#search-input {
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    padding: 0 0 2px clamp(40px, 5.5vw, 60px);
+}
+
+#search-button {
+    width: 26%;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    color: #374151;
+    background-color: #f9fafb;
+}
+
+#search-input,
+#search-button {
+    border: 1px solid #d1d5db;
+    height: clamp(45px, 5.5vw, 45px);
+    font-size: clamp(0.875rem, 2.5vw, 1.18rem);
+}
+
+#search-input::placeholder {
+    color: #6b7280;
+}
