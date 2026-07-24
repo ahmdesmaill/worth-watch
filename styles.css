@@ -53,7 +53,7 @@ main {
 /* Search Component */
 #search-component {
     display: flex;
-    margin: -20px auto 5vh;
+    margin: -20px auto 0;
     width: 84vw;
 }
 
@@ -103,7 +103,7 @@ main {
 ul {
     list-style-type: none;
     padding: 0 5vw;
-    margin: 0;
+    margin: 5vh 0 0 0;
     display: flex;
     flex-wrap: wrap;
     row-gap: 20px;
@@ -162,7 +162,7 @@ li * {
     color: #111827;
 }
 
-.movie-add-button {
+.movie-add-or-remove-button {
     background-color: transparent;
     border: none;
     display: inline-flex;
@@ -172,7 +172,11 @@ li * {
     color: inherit;
 }
 
-.movie-add-button img {
+.movie-add-or-remove-button * {
+    pointer-events: none;
+}
+
+.movie-add-or-remove-button img {
     width: 16px;
     height: 16px;
     margin-right: 2px;
@@ -184,8 +188,7 @@ li * {
 }
 
 /* Add/Remove Icons */
-.add-icon,
-.remove-icon {
+.add-or-remove-icon {
     filter: invert(15%) sepia(17%) saturate(0%) hue-rotate(182deg)
         brightness(101%) contrast(85%);
     aspect-ratio: 1 / 1;

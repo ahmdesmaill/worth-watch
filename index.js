@@ -2,9 +2,6 @@
 so it shouldn't be that big of a deal to share this API key publicly. */
 const commonUrl = `https://www.omdbapi.com?apikey=c174379d&type=movie`;
 const searchInput = document.getElementById("search-input");
-const emptyPlaceholderContainer = document.getElementById(
-  "empty-placeholder-container",
-);
 const stripIcon = document.getElementById("strip-icon");
 const emptyPlaceholderTitle = document.getElementById(
   "empty-placeholder-title",
@@ -34,7 +31,7 @@ async function handleSearchButtonClick(e) {
     if (data.Response !== "True") {
       if (data.Error === "Movie not found!") {
         lastSearchQuery = "";
-        stripIcon.style.display = "None";
+        stripIcon.style.display = "none";
         emptyPlaceholderTitle.style.display = "Block";
         moviesUl.innerHTML = "";
         emptyPlaceholderTitle.innerHTML =
@@ -59,7 +56,7 @@ async function handleSearchButtonClick(e) {
       }
 
       htmlString += `
-      <li>
+      <li id="${movieData.imdbID}">
           <img
               class="movie-poster"
               alt=""
@@ -75,9 +72,9 @@ async function handleSearchButtonClick(e) {
                   <span class="movie-genre"
                       >${movieData.Genre}</span
                   >
-                  <button class="movie-add-button" data-movie-id="${movieData.imdbID}" type="button">
+                  <button class="movie-add-or-remove-button" data-movie-id="${movieData.imdbID}" type="button">
                       <img
-                          class="add-icon"
+                          class="add-or-remove-icon"
                           alt=""
                           src="./icons/add.png"
                       />
@@ -92,13 +89,13 @@ async function handleSearchButtonClick(e) {
       `;
     }
 
-    stripIcon.style.display = "None";
-    emptyPlaceholderTitle.style.display = "None";
+    stripIcon.style.display = "none";
+    emptyPlaceholderTitle.style.display = "none";
     moviesUl.innerHTML = htmlString;
   } catch (error) {
     lastSearchQuery = "";
     moviesUl.innerHTML = "";
-    stripIcon.style.display = "None";
+    stripIcon.style.display = "none";
     emptyPlaceholderTitle.style.display = "Block";
     console.error(error.message);
     emptyPlaceholderTitle.innerHTML =
@@ -107,7 +104,12 @@ async function handleSearchButtonClick(e) {
 }
 
 function addMovieToWatchlist(e) {
-  console.log(e.target.dataset["movieId"]);
+  const movieId = e.target.dataset["movieId"];
+  let itemHTML = document.getElementById(movieId).outerHTML;
+  itemHTML = itemHTML
+    .replace(`icons/add.png`, `icons/remove.png`)
+    .replace(`<span>Watchlist`, `<span>Remove`);
+  localStorage.setItem(`movie_${movieId}`, itemHTML);
 }
 
 document.body.addEventListener("click", (e) => {
