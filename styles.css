@@ -117,7 +117,7 @@ li {
     gap: 21px;
     flex: 1 1 423px;
     min-width: min(423px, 100%);
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 li * {

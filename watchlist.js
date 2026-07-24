@@ -16,4 +16,15 @@ function loadSavedMovies() {
   }
 }
 
+document.body.addEventListener("click", (e) => {
+  const movieId = e.target.dataset["movieId"];
+  if (movieId && localStorage.getItem(`movie_${movieId}`)) {
+    localStorage.removeItem(`movie_${movieId}`);
+    document.getElementById(movieId)?.remove();
+    if (moviesUl.childElementCount === 0) {
+      emptyPlaceholderContainer.style.display = "flex";
+    }
+  }
+});
+
 loadSavedMovies();
