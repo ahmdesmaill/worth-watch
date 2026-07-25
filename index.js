@@ -6,6 +6,7 @@ const stripIcon = document.getElementById("strip-icon");
 const emptyPlaceholderTitle = document.getElementById(
   "empty-placeholder-title",
 );
+const spinnerEl = document.getElementById("spinner-bg");
 const moviesUl = document.getElementById("movies-ul");
 let lastSearchQuery = "";
 let currentTargetPage = 1;
@@ -17,6 +18,7 @@ async function handleSearchButtonClick(e) {
   lastSearchQuery = query;
   currentTargetPage = 1;
   searchResultsCount = 0;
+  spinnerEl.style.display = "block";
 
   try {
     const queryParameter = new URLSearchParams({ s: query });
@@ -31,6 +33,7 @@ async function handleSearchButtonClick(e) {
     if (data.Response !== "True") {
       if (data.Error === "Movie not found!") {
         lastSearchQuery = "";
+        spinnerEl.style.display = "none";
         stripIcon.style.display = "none";
         emptyPlaceholderTitle.style.display = "Block";
         moviesUl.innerHTML = "";
@@ -92,12 +95,14 @@ async function handleSearchButtonClick(e) {
       `;
     }
 
+    spinnerEl.style.display = "none";
     stripIcon.style.display = "none";
     emptyPlaceholderTitle.style.display = "none";
     moviesUl.innerHTML = htmlString;
   } catch (error) {
     lastSearchQuery = "";
     moviesUl.innerHTML = "";
+    spinnerEl.style.display = "none";
     stripIcon.style.display = "none";
     emptyPlaceholderTitle.style.display = "Block";
     console.error(error.message);
