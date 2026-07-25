@@ -55,6 +55,9 @@ async function handleSearchButtonClick(e) {
         throw new Error(movieData.Error);
       }
 
+      const isMovieAdded = localStorage.getItem(`movie_${movieData.imdbID}`);
+      const addedClass = isMovieAdded ? " movie-added-button" : "";
+      const buttonSpanContent = isMovieAdded ? "Added ✅" : "Watchlist";
       htmlString += `
       <li id="${movieData.imdbID}">
           <img
@@ -72,13 +75,13 @@ async function handleSearchButtonClick(e) {
                   <span class="movie-genre"
                       >${movieData.Genre}</span
                   >
-                  <button class="movie-add-or-remove-button" data-movie-id="${movieData.imdbID}" type="button">
+                  <button class="movie-add-or-remove-button${addedClass}" data-movie-id="${movieData.imdbID}" type="button">
                       <img
                           class="add-or-remove-icon"
                           alt=""
                           src="./icons/add.png"
                       />
-                      <span>Watchlist</span>
+                      <span>${buttonSpanContent}</span>
                   </button>
               </div>
               <p class="movie-plot">
@@ -105,11 +108,17 @@ async function handleSearchButtonClick(e) {
 
 function addMovieToWatchlist(e) {
   const movieId = e.target.dataset["movieId"];
-  let itemHTML = document.getElementById(movieId).outerHTML;
-  itemHTML = itemHTML
+  if (localStorage.getItem(`movie_${movieId}`)) return;
+  const movieElement = document.getElementById(movieId);
+  let movieHTML = movieElement.outerHTML;
+  const button = movieElement.querySelector(".movie-add-or-remove-button");
+  const buttonSpan = button.querySelector("span");
+  movieHTML = movieHTML
     .replace(`icons/add.png`, `icons/remove.png`)
-    .replace(`<span>Watchlist`, `<span>Remove`);
-  localStorage.setItem(`movie_${movieId}`, itemHTML);
+    .replace(`<span>${buttonSpan.textContent}`, `<span>Remove`);
+  localStorage.setItem(`movie_${movieId}`, movieHTML);
+  button.classList.add("movie-added-button");
+  buttonSpan.textContent = "Added ✅";
 }
 
 document.body.addEventListener("click", (e) => {
