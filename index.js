@@ -12,12 +12,13 @@ let lastSearchQuery = "";
 let currentTargetPage = 1;
 let searchResultsCount = 0;
 
-async function handleSearchButtonClick(e) {
+async function handleSearch(e) {
   const query = searchInput.value;
   if (!query || query === lastSearchQuery) return;
   lastSearchQuery = query;
   currentTargetPage = 1;
   searchResultsCount = 0;
+  moviesUl.style.display = "none";
   spinnerEl.style.display = "block";
 
   try {
@@ -95,6 +96,7 @@ async function handleSearchButtonClick(e) {
       `;
     }
 
+    moviesUl.style.display = "flex";
     spinnerEl.style.display = "none";
     stripIcon.style.display = "none";
     emptyPlaceholderTitle.style.display = "none";
@@ -138,13 +140,13 @@ moviesUl.addEventListener(
 
 searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    handleSearchButtonClick(e);
+    handleSearch(e);
   }
 });
 
 document.body.addEventListener("click", (e) => {
   if (e.target.id === "search-button") {
-    handleSearchButtonClick(e);
+    handleSearch(e);
   } else if (e.target.dataset["movieId"]) {
     addMovieToWatchlist(e);
   }
