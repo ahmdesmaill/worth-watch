@@ -126,6 +126,12 @@ function addMovieToWatchlist(e) {
   buttonSpan.textContent = "Added ✅";
 }
 
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleSearchButtonClick(e);
+  }
+});
+
 document.body.addEventListener("click", (e) => {
   if (e.target.id === "search-button") {
     handleSearchButtonClick(e);
