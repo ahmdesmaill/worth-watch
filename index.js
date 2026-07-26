@@ -126,6 +126,16 @@ function addMovieToWatchlist(e) {
   buttonSpan.textContent = "Added ✅";
 }
 
+moviesUl.addEventListener(
+  "error",
+  (e) => {
+    if (e.target.classList.contains("movie-poster")) {
+      e.target.setAttribute("src", "./icons/fallback-poster.png");
+    }
+  },
+  true,
+);
+
 searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     handleSearchButtonClick(e);
