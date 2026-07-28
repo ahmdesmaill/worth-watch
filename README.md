@@ -11,3 +11,23 @@
 - ✅ Saves movies in your browser's local storage so they're still available after closing the website
 - 🎬 Uses the open movie database for its movies (OMDb)
 - 💻 Made with plain client side HTML, CSS & JavaScript
+
+#### How to run it locally:
+
+1. Clone the repo
+
+```bash
+git clone https://github.com/ahmdesmaill/worth-watch
+cd worth-watch/
+```
+
+2. Run it with a local development server
+
+```bash
+python3 -m http.server 8000
+
+# or run using npm
+
+npm install -g http-server
+http-server
+```
