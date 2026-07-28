@@ -8,17 +8,19 @@ const emptyPlaceholderTitle = document.getElementById(
 );
 const spinnerEl = document.getElementById("spinner-bg");
 const moviesUl = document.getElementById("movies-ul");
+const showMoreButton = document.getElementById("show-more-button");
 let lastSearchQuery = "";
 let currentTargetPage = 1;
-let searchResultsCount = 0;
+let currentRemainingSearchResultsCount = 0;
 
 async function handleSearch(e) {
   const query = searchInput.value;
   if (!query || query === lastSearchQuery) return;
   lastSearchQuery = query;
   currentTargetPage = 1;
-  searchResultsCount = 0;
+  currentRemainingSearchResultsCount = 0;
   moviesUl.style.display = "none";
+  showMoreButton.style.display = "none";
   spinnerEl.style.display = "block";
 
   try {
@@ -36,17 +38,17 @@ async function handleSearch(e) {
         lastSearchQuery = "";
         spinnerEl.style.display = "none";
         stripIcon.style.display = "none";
-        emptyPlaceholderTitle.style.display = "Block";
+        emptyPlaceholderTitle.style.display = "block";
         moviesUl.innerHTML = "";
         emptyPlaceholderTitle.innerHTML =
-          "Unable to find what you’re looking for.<br />Please try another search.";
+          "Unable to find what you're looking for.<br />Please try another search.";
         return;
       } else {
         throw new Error(data.Error);
       }
     }
 
-    searchResultsCount = data.totalResults;
+    currentRemainingSearchResultsCount = data.totalResults - data.Search.length;
     let htmlString = "";
     for (const movie of data.Search) {
       const movieResponse = await fetch(`${commonUrl}&i=${movie.imdbID}`);
@@ -101,6 +103,9 @@ async function handleSearch(e) {
     stripIcon.style.display = "none";
     emptyPlaceholderTitle.style.display = "none";
     moviesUl.innerHTML = htmlString;
+    if (currentRemainingSearchResultsCount > 0) {
+      showMoreButton.style.display = "block";
+    }
   } catch (error) {
     lastSearchQuery = "";
     moviesUl.innerHTML = "";
@@ -150,4 +155,92 @@ document.body.addEventListener("click", (e) => {
   } else if (e.target.dataset["movieId"]) {
     addMovieToWatchlist(e);
   }
+});
+
+showMoreButton.addEventListener("click", async (e) => {
+  if (currentRemainingSearchResultsCount <= 0) return;
+  showMoreButton.disabled = true;
+  document.body.style.cursor = "progress";
+  try {
+    const queryParameter = new URLSearchParams({ s: lastSearchQuery });
+    let response = await fetch(
+      `${commonUrl}&page=${currentTargetPage + 1}&${queryParameter}`,
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    if (data.Response !== "True") {
+      if (data.Error === "Movie not found!") {
+        showMoreButton.style.display = "none";
+      }
+      throw new Error(data.Error);
+    }
+
+    let htmlString = "";
+    for (const movie of data.Search) {
+      const movieResponse = await fetch(`${commonUrl}&i=${movie.imdbID}`);
+      if (!movieResponse.ok) {
+        throw new Error(`HTTP ${movieResponse.status}`);
+      }
+
+      const movieData = await movieResponse.json();
+      if (movieData.Response !== "True") {
+        throw new Error(movieData.Error);
+      }
+
+      const isMovieAdded = localStorage.getItem(`movie_${movieData.imdbID}`);
+      const addedClass = isMovieAdded ? " movie-added-button" : "";
+      const buttonSpanContent = isMovieAdded ? "Added ✅" : "Watchlist";
+      htmlString += `
+      <li id="${movieData.imdbID}">
+          <img
+              class="movie-poster"
+              alt=""
+              src="${movieData.Poster}"
+          />
+          <div class="movie-info-container">
+              <div class="movie-header-info-container">
+                  <span class="movie-title">${movieData.Title}</span>
+                  <span class="movie-rating">⭐️ ${movieData.imdbRating}</span>
+              </div>
+              <div class="movie-midinfo-container">
+                  <span class="movie-duration">${movieData.Runtime}</span>
+                  <span class="movie-genre"
+                      >${movieData.Genre}</span
+                  >
+                  <button class="movie-add-or-remove-button${addedClass}" data-movie-id="${movieData.imdbID}" type="button">
+                      <img
+                          class="add-or-remove-icon"
+                          alt=""
+                          src="./icons/add.png"
+                      />
+                      <span>${buttonSpanContent}</span>
+                  </button>
+              </div>
+              <p class="movie-plot">
+                  ${movieData.Plot}
+              </p>
+          </div>
+      </li>
+      `;
+    }
+
+    moviesUl.innerHTML += htmlString;
+
+    currentRemainingSearchResultsCount -= data.Search.length;
+    if (currentRemainingSearchResultsCount > 0) {
+      currentTargetPage++;
+    } else {
+      showMoreButton.style.display = "none";
+    }
+  } catch (error) {
+    console.error(error.message);
+    alert(
+      "Something went wrong with showing more movies. Please try again later.",
+    );
+  }
+  document.body.style.cursor = "default";
+  showMoreButton.disabled = false;
 });

@@ -145,7 +145,7 @@ li * {
 .movie-title {
     font-size: 18px;
     font-weight: 500;
-    color: #000000;
+    color: black;
 }
 
 .movie-rating {
@@ -315,4 +315,21 @@ li * {
         stroke-dasharray: 89, 200;
         stroke-dashoffset: -124;
     }
+}
+
+#show-more-button {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    background-color: transparent;
+    padding: 20px 0 15px;
+    color: black;
+    border: none;
+    display: none;
+    font-weight: 500;
+    font-size: clamp(0.95rem, 2vw, 1.35rem);
+}
+
+#show-more-button:disabled {
+    cursor: progress;
+    opacity: 0.5;
 }
