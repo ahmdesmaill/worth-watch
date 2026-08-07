@@ -35,3 +35,7 @@ http-server
 #### AI Declaration:
 
 When googling, I sometimes use direct answers from Gemini instead of going through the websites from the search results. I also use OpenCode inside Zed to ask questions about CSS or let the agent do some small/boring edits like organizing the code, asking how to do something that I don't know about, or fix small English typos.
+
+#### Credits:
+
+The Figma design was provided by an education platform called Scrimba, they give their learners project ideas & their design, then learners (like me) build the coding part from scratch.
